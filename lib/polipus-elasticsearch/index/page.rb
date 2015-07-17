@@ -1,7 +1,7 @@
 require 'elasticsearch/model'
 
-ENV['POLIPUS_ELASTICSEACH_INDEX_SHARDS']    ||= '1'
-ENV['POLIPUS_ELASTICSEACH_INDEX_REPLICAS']  ||= '0'
+ENV['POLIPUS_ELASTICSEARCH_INDEX_SHARDS']    ||= '1'
+ENV['POLIPUS_ELASTICSEARCH_INDEX_REPLICAS']  ||= '0'
 
 module Polipus
   module ElasticSearch
@@ -14,8 +14,8 @@ module Polipus
 
       settings(
         index: {
-          number_of_shards: ENV['POLIPUS_ELASTICSEACH_INDEX_SHARDS'].to_i,
-          number_of_replicas: ENV['POLIPUS_ELASTICSEACH_INDEX_REPLICAS'].to_i
+          number_of_shards: ENV['POLIPUS_ELASTICSEARCH_INDEX_SHARDS'].to_i,
+          number_of_replicas: ENV['POLIPUS_ELASTICSEARCH_INDEX_REPLICAS'].to_i
         }
       )
       mapping(_all: { enabled: false }) do
