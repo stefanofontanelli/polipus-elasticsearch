@@ -9,12 +9,14 @@ require 'webmock/rspec'
 
 Coveralls.wear!
 
+require 'polipus'
+
 VCR.configure do |c|
   c.cassette_library_dir = "#{File.dirname(__FILE__)}/cassettes"
   c.hook_into :webmock
+  c.allow_http_connections_when_no_cassette = true
+  c.ignore_localhost = true
 end
-
-require 'polipus'
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
@@ -29,16 +31,21 @@ RSpec.configure do |config|
   config.around(:each) do |example|
     t = Time.now
     print example.metadata[:full_description]
-    VCR.use_cassette(Digest::MD5.hexdigest(example.metadata[:full_description])) do
+    VCR.use_cassette(
+      Digest::MD5.hexdigest(example.metadata[:full_description]),
+      record: :all
+    ) do
       example.run
-      puts " [#{Time.now - t}s]"
     end
+    puts " [#{Time.now - t}s]"
   end
   config.before(:each) { Polipus::SignalHandler.disable }
 end
 
 def page_factory(url, params = {})
-  params[:code] = 200 unless params.has_key?(:code)
+  params[:code] ||= 200 unless params.has_key?(:code)
   params[:body] = '<html></html>' unless params.has_key?(:body)
-  Polipus::Page.new url, params
+  params[:fetched_at] = Time.now.to_i
+  sleep(1)
+  Polipus::Page.new(url, params)
 end
