@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = 'polipus-elasticsearch'
-  spec.version       = '0.0.1'
+  spec.version       = '0.0.3'
   spec.authors       = ['Stefano Fontanelli']
   spec.email         = ['s.fontanelli@gmail.com']
   spec.summary       = 'Add support for ElasticSearch in Polipus crawler'

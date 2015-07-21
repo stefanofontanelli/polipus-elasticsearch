@@ -146,8 +146,9 @@ module Polipus
         )
       end
 
-      def self.setup(client_)
+      def self.setup(client_, index_name = DEFAULT_INDEX_NAME)
         __elasticsearch__.client = client_
+        self.index_name(index_name)
       end
 
       def self.store(document, refresh = false)

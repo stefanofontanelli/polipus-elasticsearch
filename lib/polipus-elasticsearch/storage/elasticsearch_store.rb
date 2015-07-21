@@ -19,7 +19,7 @@ module Polipus
         @compress = options[:compress] || options['compress']
         @semaphore = Mutex.new
         @refresh = options[:refresh] || options['refresh'] || true
-        index.setup(client)
+        index.setup(client, index_name)
         index.create_index!(index_name) unless index.index_exists?
       end
 
