@@ -34,7 +34,11 @@ module Polipus
           end
           obj['id'] = uuid(page)
           obj['fetched_at'] = obj['fetched_at'].to_i
-          index.store(obj, refresh)
+          begin
+            index.store(obj, refresh)
+          rescue Elasticsearch::Transport::Transport::Errors::Conflict => ex
+            # you're trying to store an old version.
+          end
         end
       end
 
